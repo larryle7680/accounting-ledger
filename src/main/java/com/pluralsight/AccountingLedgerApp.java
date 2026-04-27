@@ -1,6 +1,7 @@
 package com.pluralsight;
 import java.io.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 public class AccountingLedgerApp {
@@ -62,8 +63,11 @@ public class AccountingLedgerApp {
             String usersChoice = theScanner.nextLine();
 
             //Create if statement to sort through the option when chosen
-            if(usersChoice.equalsIgnoreCase("d")){
+            if(usersChoice.equalsIgnoreCase("D")){
                 addDeposit();
+                break;
+            }else if (usersChoice.equalsIgnoreCase("P")){
+                makePayment();
                 break;
             }
 
@@ -115,17 +119,16 @@ public class AccountingLedgerApp {
             if (yesNo.equalsIgnoreCase("y")) {
                 try {
                     File file = new File("src/main/resources/transaction.csv");
+                    boolean header = !file.exists() || file.length() == 0;
                     fileWriter = new FileWriter("src/main/resources/transaction.csv", true);
                     BufferedWriter bufWriter = new BufferedWriter(fileWriter);
-                    //Used a Buffered Writer to write a header into the csv file
 
-                    if(file.length() == 0){
-                        bufWriter.write("=== LarryLegend's Transaction ===\n");
-                        bufWriter.write("Date | Time | Description | Vendor | Price\n");
+                    if(header){
+                        bufWriter.write("=== LarryLegend's Ledger ===");
+                        bufWriter.write("Date|Time|Description|Vendor|Price");
                     }
 
-
-                    bufWriter.write(dateInput + " | " + timeInput + " | " + descriptionInput + " | " + vendorInput + " | " + priceInput +"\n");
+                    bufWriter.write(dateInput + "|" + timeInput + "|" + descriptionInput + "|" + vendorInput + "|" + priceInput +"\n");
 
                     bufWriter.close();
                 } catch (IOException e) {
@@ -148,6 +151,84 @@ public class AccountingLedgerApp {
         break;
         }
     }//End of addDeposit method
+    public static void makePayment(){
+        boolean isRunning = false;
+        while(!isRunning) {
+            System.out.println("=== Make A Payment ===");
+            System.out.println();
+            System.out.println("Who's the payment to?");
+            String payee = theScanner.nextLine();
+            System.out.println("What's the payment for?");
+            String forPayment = theScanner.nextLine();
+            System.out.println("Price of Product/Service");
+            double productPrice = theScanner.nextDouble();
+
+            //Eat the line
+            theScanner.nextLine();
+
+            System.out.println("Please enter Card holder's name");
+            String nameCard = theScanner.nextLine();
+            System.out.println("Please enter Debit/Credit card number");
+            String cardNum = theScanner.nextLine();
+            System.out.println();
+            System.out.printf("""
+                    You entered:
+                    
+                    Payee: %s
+                    Description: %s
+                    Cost: $%.2f
+                    Card Holder Name: %s
+                    Card Number: %s
+                    """, payee, forPayment, productPrice, nameCard, cardNum);
+            System.out.println();
+            System.out.println("Is this correct? Y or N");
+            String yesOrNo = theScanner.nextLine();
+
+            //Add LocalDate and LocalTime because when paying it should automatically show up on time of payment
+            LocalDate date = LocalDate.now();
+            LocalTime time = LocalTime.now();
+
+            DateTimeFormatter newDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter newTime = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+            FileWriter fileWriter = null;
+            if (yesOrNo.equalsIgnoreCase("y")) {
+                try {
+                    File file = new File("src/main/resources/transaction.csv");
+                    boolean header = !file.exists() || file.length() == 0;
+                    fileWriter = new FileWriter("src/main/resources/transaction.csv", true);
+                    BufferedWriter bufWriter = new BufferedWriter(fileWriter);
+
+                    if(header){
+                        bufWriter.write("=== LarryLegend's Ledger ===");
+                        bufWriter.write("Date|Time|Description|Vendor|Price");
+                    }
+
+                    bufWriter.write(newDate + "|" + newTime + "|" + forPayment + "|" + payee + "|" + productPrice +"\n");
+
+                    bufWriter.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }else {
+                System.out.println();
+                System.out.println("Please try again.");
+                System.out.println();
+                makePayment();
+            }
+            System.out.println("Would you like to add another? Y or N");
+            String addAnother = theScanner.nextLine();
+            if(addAnother.equalsIgnoreCase("Y")){
+                makePayment();
+            }else{
+                return;
+            }
+
+            break;
+
+            }
+        }
+    }
 
 
 
