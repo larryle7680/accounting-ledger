@@ -1,7 +1,5 @@
 package com.pluralsight;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -75,50 +73,80 @@ public class AccountingLedgerApp {
         }
     }//End of homeScreen method
     public static void addDeposit(){
-        //Prompt users questions and store their input
-        System.out.println();
-        System.out.println("=== Adding Deposit ===");
-        System.out.println();
-        System.out.println("Please fill these out to add your deposit");
-        System.out.println();
-        System.out.println("What is date of this transaction? In this format (yyyy-mm-dd)");
-        String dateInput = theScanner.nextLine();
-        System.out.println("What is the time of this transaction? In this format (hh:mm:ss)");
-        String timeInput = theScanner.nextLine();
-        System.out.println("What is the description of this transaction?");
-        String descriptionInput = theScanner.nextLine();
-        System.out.println("Who was the vendor for this transaction?");
-        String vendorInput = theScanner.nextLine();
+        //Make this menu into a while loop
+        boolean isRunning = false;
+        while(!isRunning) {
+            //Prompt users questions and store their input
+            System.out.println();
+            System.out.println("=== Adding Deposit ===");
+            System.out.println();
+            System.out.println("Please fill these out to add your deposit");
+            System.out.println();
+            System.out.println("What is date of this transaction? In this format (yyyy-mm-dd)");
+            String dateInput = theScanner.nextLine();
+            System.out.println("What is the time of this transaction? In this format (hh:mm:ss)");
+            String timeInput = theScanner.nextLine();
+            System.out.println("What is the description of this transaction?");
+            String descriptionInput = theScanner.nextLine();
+            System.out.println("Who was the vendor for this transaction?");
+            String vendorInput = theScanner.nextLine();
+            System.out.println("What was price of this transaction?");
+            double priceInput = theScanner.nextDouble();
+            System.out.println();
 
-        //Check to see if I bought or sold services
-        System.out.println("Did you buy or sell service/product? Type S or B");
-        String soldBoughtInput = theScanner.nextLine();
-        System.out.println("What was price of this transaction?");
-        double priceInput = theScanner.nextDouble();
-        System.out.println();
+            //Reflect users input to see if they added the correct input
+            System.out.printf("""
+                    You added:
+                    Date: %s
+                    Time: %s
+                    Description: %s
+                    Vendor: %s
+                    Price: $%.2f
+                    
+                    Is this correct? Press Y or N
+                    """, dateInput, timeInput, descriptionInput, vendorInput, priceInput);
+
+            //Eat a line
+            theScanner.nextLine();
+            String yesNo = theScanner.nextLine();
+
+            //Create a FileWriter and BufferedWriter to add to the csv file
+            FileWriter fileWriter = null;
+            if (yesNo.equalsIgnoreCase("y")) {
+                try {
+                    File file = new File("src/main/resources/transaction.csv");
+                    fileWriter = new FileWriter("src/main/resources/transaction.csv", true);
+                    BufferedWriter bufWriter = new BufferedWriter(fileWriter);
+                    //Used a Buffered Writer to write a header into the csv file
+
+                    if(file.length() == 0){
+                        bufWriter.write("=== LarryLegend's Transaction ===\n");
+                        bufWriter.write("Date | Time | Description | Vendor | Price\n");
+                    }
 
 
-        //Create a FileWriter and BufferedWriter to add to the csv file
-        FileWriter fileWriter = null;
-        try {
+                    bufWriter.write(dateInput + " | " + timeInput + " | " + descriptionInput + " | " + vendorInput + " | " + priceInput +"\n");
 
-            fileWriter = new FileWriter("src/main/resources/transaction.csv");
-            BufferedWriter bufWriter = new BufferedWriter(fileWriter);
-        //Used a Buffered Writer to write a header into the csv file
-            bufWriter.write("=== LarryLegend's Transaction ===");
-            bufWriter.write("Date | Time | Description | Vendor | Price");
-            //Use BufferedWriter to add stuff to the csv file
-            if(soldBoughtInput.equalsIgnoreCase("B")){
-                bufWriter.write(dateInput + " | " + timeInput + " | " + descriptionInput + " | " + vendorInput + " | " + "-"+priceInput);
+                    bufWriter.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }else {
-                bufWriter.write(dateInput + " | " + timeInput + " | " + descriptionInput + " | " + vendorInput + " | " + priceInput);
+                System.out.println();
+                System.out.println("Please try again.");
+                System.out.println();
+                addDeposit();
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println("Would you like to add another? Y or N");
+            String addAnother = theScanner.nextLine();
+            if(addAnother.equalsIgnoreCase("Y")){
+                addDeposit();
+            }else{
+                return;
+            }
+
+        break;
         }
-
-
-
     }//End of addDeposit method
 
 
