@@ -55,24 +55,13 @@ public class AccountingLedgerApp {
             System.out.println("What would you like to access?");
             String usersChoice = theScanner.nextLine();
 
-            //Create a switch statement to sort through the option if chosen
-            switch(usersChoice){
-                case 1:
-                    addDeposit();
-                    break;
-                case 2:
-                    makePayment();
-                    break;
-                case 3:
-                    displayLedger();
-                    break;
-                case 4:
-                    surprise();
-                    break;
-                case 5:
-                    return;
-                    break;
+            //Create if statement to sort through the option when chosen
+            if(usersChoice.equalsIgnoreCase("d")){
+                addDeposit();
+                break;
             }
+
+
 
 
         }
@@ -83,7 +72,18 @@ public class AccountingLedgerApp {
         System.out.println();
         System.out.println("Please fill these out to add your deposit");
         System.out.println();
-        System.out.println("What is your");
+        System.out.println("What is date of this transaction? In this format (yyyy-mm-dd)");
+        String dateInput = theScanner.nextLine();
+        System.out.println("What is the time of this transaction? In this format (hh:mm:ss)");
+        String timeInput = theScanner.nextLine();
+        System.out.println("What is the description of this transaction?");
+        String descriptionInput = theScanner.nextLine();
+        System.out.println("Who was the vendor for this transaction?");
+        String vendorInput = theScanner.nextLine();
+        System.out.println("What was price of this transaction?");
+        double priceInput = theScanner.nextDouble();
+
+
     }
 
 
