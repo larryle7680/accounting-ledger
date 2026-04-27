@@ -185,11 +185,11 @@ public class AccountingLedgerApp {
             String yesOrNo = theScanner.nextLine();
 
             //Add LocalDate and LocalTime because when paying it should automatically show up on time of payment
-            LocalDate date = LocalDate.now();
-            LocalTime time = LocalTime.now();
-
-            DateTimeFormatter newDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            DateTimeFormatter newTime = DateTimeFormatter.ofPattern("HH:mm:ss");
+            //Reformat it to fit the template and create it into a string to file into the csv
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            String timeText = LocalTime.now().format(timeFormatter);
+            String dayText = LocalDate.now().format(dateFormatter);
 
             FileWriter fileWriter = null;
             if (yesOrNo.equalsIgnoreCase("y")) {
@@ -204,7 +204,7 @@ public class AccountingLedgerApp {
                         bufWriter.write("Date|Time|Description|Vendor|Price");
                     }
 
-                    bufWriter.write(newDate + "|" + newTime + "|" + forPayment + "|" + payee + "|" + productPrice +"\n");
+                    bufWriter.write(dayText + "|" + timeText + "|" + forPayment + "|" + payee + "|" + productPrice +"\n");
 
                     bufWriter.close();
                 } catch (IOException e) {
