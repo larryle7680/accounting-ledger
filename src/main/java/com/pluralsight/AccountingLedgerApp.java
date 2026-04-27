@@ -1,5 +1,6 @@
 package com.pluralsight;
 import java.io.*;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -13,7 +14,6 @@ public class AccountingLedgerApp {
     public static void main(String[] args) {
         homeScreen();
     }//End of Main Method
-
     public static void homeScreen(){
         //Create a boolean to keep the menu false
         //But when the menu is running the variable would change to true
@@ -145,7 +145,7 @@ public class AccountingLedgerApp {
             if(addAnother.equalsIgnoreCase("Y")){
                 addDeposit();
             }else{
-                return;
+                homeScreen();
             }
 
         break;
@@ -204,7 +204,7 @@ public class AccountingLedgerApp {
                         bufWriter.write("Date|Time|Description|Vendor|Price");
                     }
 
-                    bufWriter.write(dayText + "|" + timeText + "|" + forPayment + "|" + payee + "|" + productPrice +"\n");
+                    bufWriter.write(dayText + "|" + timeText + "|" + forPayment + "|" + payee + "|" + "-" + productPrice +"\n");
 
                     bufWriter.close();
                 } catch (IOException e) {
@@ -221,14 +221,67 @@ public class AccountingLedgerApp {
             if(addAnother.equalsIgnoreCase("Y")){
                 makePayment();
             }else{
-                return;
+                homeScreen();
             }
 
             break;
 
             }
+        }//End of MakePayment method
+    public static void ledger(){
+        //Prompt the questions to navigate through menu
+        System.out.println("=== LarryLegend's Ledger Menu ===");
+        System.out.println();
+        System.out.println("Please choose an option to navigate through the menu.");
+        System.out.println();
+        System.out.println("Press A: Display All Entries");
+        System.out.println("Press D: View the Deposits");
+        System.out.println("Press P: View the Payments");
+        System.out.println("Press R: Custom Search");
+        //Store their input
+        String usersInput = theScanner.nextLine();
+        if(usersInput.equalsIgnoreCase("A")){
+
         }
+
     }
+    public static ArrayList<Transactions> getTransactions(){
+        //create a file reader to read through the csv files of transaction
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader("src/main/resources/transaction.csv");
+            BufferedReader bufReader = new BufferedReader(fileReader);
+
+            //Skip the first 2 lines for headers
+            bufReader.readLine();
+            bufReader.readLine();
+
+            //add a variable for line so it can read
+            String line;
+           //Use a while loop to read through the files
+            while((line = bufReader.readLine()) != null){
+                //Split the data into its designated variables
+                String[] lineParts = line.split("\\|");
+                //Parse the Date and Time into an actual date/time
+                LocalDate datePart = LocalDate.parse(lineParts[0]);
+                LocalTime timePart = LocalTime.parse(lineParts[1]);
+                String descriptionPart = lineParts[2];
+                String vendorParts = lineParts[3];
+                double priceParts = Double.parseDouble(lineParts[4]);
+
+                //Add them into the empty Array
+                Transactions tranaction = new Transactions(datePart,timePart,descriptionPart,vendorParts,priceParts);
+            }
+            bufReader.close();
+        } catch (Exception e) {
+            System.out.println("Can't find the file.");
+            throw new RuntimeException(e);
+        }
+
+
+        return transactions;
+    }
+
 
 
 
