@@ -1,8 +1,16 @@
 package com.pluralsight;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 public class AccountingLedgerApp {
     //Creating a static Scanner to be able to access it through any method I created
     static Scanner theScanner = new Scanner(System.in);
+    //Create and empty static Array List to input stuff into your object
+    static ArrayList<Transactions>transactions = new ArrayList<>();
+
     public static void main(String[] args) {
         homeScreen();
     }//End of Main Method
@@ -67,6 +75,7 @@ public class AccountingLedgerApp {
         }
     }//End of homeScreen method
     public static void addDeposit(){
+        //Prompt users questions and store their input
         System.out.println();
         System.out.println("=== Adding Deposit ===");
         System.out.println();
@@ -80,11 +89,37 @@ public class AccountingLedgerApp {
         String descriptionInput = theScanner.nextLine();
         System.out.println("Who was the vendor for this transaction?");
         String vendorInput = theScanner.nextLine();
+
+        //Check to see if I bought or sold services
+        System.out.println("Did you buy or sell service/product? Type S or B");
+        String soldBoughtInput = theScanner.nextLine();
         System.out.println("What was price of this transaction?");
         double priceInput = theScanner.nextDouble();
+        System.out.println();
 
 
-    }
+        //Create a FileWriter and BufferedWriter to add to the csv file
+        FileWriter fileWriter = null;
+        try {
+
+            fileWriter = new FileWriter("src/main/resources/transaction.csv");
+            BufferedWriter bufWriter = new BufferedWriter(fileWriter);
+        //Used a Buffered Writer to write a header into the csv file
+            bufWriter.write("=== LarryLegend's Transaction ===");
+            bufWriter.write("Date | Time | Description | Vendor | Price");
+            //Use BufferedWriter to add stuff to the csv file
+            if(soldBoughtInput.equalsIgnoreCase("B")){
+                bufWriter.write(dateInput + " | " + timeInput + " | " + descriptionInput + " | " + vendorInput + " | " + "-"+priceInput);
+            }else {
+                bufWriter.write(dateInput + " | " + timeInput + " | " + descriptionInput + " | " + vendorInput + " | " + priceInput);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+    }//End of addDeposit method
 
 
 
