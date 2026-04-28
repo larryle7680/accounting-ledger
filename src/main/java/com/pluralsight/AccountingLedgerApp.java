@@ -276,6 +276,10 @@ public class AccountingLedgerApp {
                                 t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
                     }
                 }
+            } else if(usersInput.equalsIgnoreCase("R")){
+                search();
+            }else if(usersInput.equalsIgnoreCase("X")){
+                isRunning = false;
             }
 
 
@@ -325,6 +329,7 @@ public class AccountingLedgerApp {
         return transactions;
     }
     public static void search(){
+
         //Create a sub menu for searching the reports
         boolean isRunning = false;
         //Prompt users choice and store their answer to use later
@@ -340,11 +345,48 @@ public class AccountingLedgerApp {
             System.out.println("Press H: For Home");
             System.out.println();
             int usersChoice = theScanner.nextInt();
-            //Eat the line
-            theScanner.nextLine();
+//            //Eat the line
+//            theScanner.nextLine();
             String usersChoiceS = theScanner.nextLine();
 
+            //Create a conditional for "H" to go back home
+            if(usersChoiceS.equalsIgnoreCase("H")){
+                isRunning = false;
+            }
 
+            //Create a switch statement for the numbers
+            switch(usersChoice) {
+                case 1:
+                    System.out.println("Please type in a month");
+                    String monthSearch = theScanner.nextLine();
+                    //Iterate through the list
+                    for (int i = 0; i < transactions.size(); i++) {
+                         Transactions t = transactions.get(i);
+                        //Converted the date to a string to compare
+                        //Get month from the getDate
+                        //value of is a java tool that assigns the month to its respective number
+                        String monthName = String.valueOf(t.getDate().getMonth());
+                        if (monthSearch.equalsIgnoreCase(monthName)) {
+                            System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
+                                    t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                        }
+                    }
+                    break;
+                case 2:
+                    //create a variable for previousMonth and local date
+                    LocalDate date = LocalDate.now();
+                    String previousMonth = String.valueOf(date.minusMonths(1).getMonth());
+                    //loop through the ArrayList to find previous month transactions
+                    for (int i = 0; i < transactions.size(); i++) {
+                        Transactions t = transactions.get(i);
+                        String monthName = t.getDate().getMonth().toString();
+                        if (previousMonth.equalsIgnoreCase(monthName)) {
+                            System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
+                                    t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                        }
+                    }
+
+            }
 
 
         }
