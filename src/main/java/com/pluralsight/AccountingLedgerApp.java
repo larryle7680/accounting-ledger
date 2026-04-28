@@ -11,6 +11,7 @@ public class AccountingLedgerApp {
     static Scanner theScanner = new Scanner(System.in);
     //Create and empty static Array List to input stuff into your object
     static ArrayList<Transactions>transactions = new ArrayList<>();
+    static LocalDate date = LocalDate.now();
 
     public static void main(String[] args) {
         homeScreen();
@@ -373,8 +374,7 @@ public class AccountingLedgerApp {
                     }
                     break;
                 case 2:
-                    //create a variable for previousMonth and local date
-                    LocalDate date = LocalDate.now();
+
                     String previousMonth = String.valueOf(date.minusMonths(1).getMonth());
                     //loop through the ArrayList to find previous month transactions
                     for (int i = 0; i < transactions.size(); i++) {
@@ -385,7 +385,49 @@ public class AccountingLedgerApp {
                                     t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
                         }
                     }
-
+                break;
+                case 3:
+                    System.out.println("Please type in a year");
+                    String yearSearch = theScanner.nextLine();
+                    //Iterate through the list
+                    for (int i = 0; i < transactions.size(); i++) {
+                        Transactions t = transactions.get(i);
+                        //Converted the date to a string to compare
+                        //Get year from the getDate
+                        //value of is a java tool that assigns the month to its respective number
+                        String yearName = String.valueOf(t.getDate().getYear());
+                        if (yearSearch.equalsIgnoreCase(yearName)) {
+                            System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
+                                    t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                        }
+                    }
+                    break;
+                case 4:
+                    String previousYear = String.valueOf(date.minusYears(1).getYear());
+                    //loop through the ArrayList to find previous month transactions
+                    for (int i = 0; i < transactions.size(); i++) {
+                        Transactions t = transactions.get(i);
+                        //Couldn't use .toString() because int doesn't have this method.
+                        String yearName = String.valueOf(t.getDate().getYear());
+                        if (previousYear.equalsIgnoreCase(yearName)) {
+                            System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
+                                    t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                        }
+                    }
+                    break;
+                case 5:
+                    System.out.println("=== Search By Vendor ===");
+                    System.out.println();
+                    System.out.println("Please Enter The Vendor's Name");
+                    String vendorsName = theScanner.nextLine();
+                    System.out.println();
+                    for(int i = 0; i < transactions.size(); i++){
+                        Transactions t = transactions.get(i);
+                        if(vendorsName.equalsIgnoreCase(t.getVendor())){
+                            System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
+                                    t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                        }
+                    }
             }
 
 
