@@ -69,6 +69,9 @@ public class AccountingLedgerApp {
             }else if (usersChoice.equalsIgnoreCase("P")){
                 makePayment();
                 break;
+            }else if (usersChoice.equalsIgnoreCase("L")) {
+                ledger();
+                break;
             }
 
 
@@ -229,6 +232,7 @@ public class AccountingLedgerApp {
             }
         }//End of MakePayment method
     public static void ledger(){
+        ArrayList<Transactions> transaction = getTransactions();
         //Prompt the questions to navigate through menu
         System.out.println("=== LarryLegend's Ledger Menu ===");
         System.out.println();
@@ -241,7 +245,13 @@ public class AccountingLedgerApp {
         //Store their input
         String usersInput = theScanner.nextLine();
         if(usersInput.equalsIgnoreCase("A")){
-
+            System.out.println("=== Diplaying all Entries ===");
+            System.out.println();
+            for(int i = 0; i < transactions.size(); i++){
+                Transactions t = transactions.get(i);
+                System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",t.getDate(),
+                t.getTime(),t.getDescription(),t.getVendor(),t.getAmount());
+            }
         }
 
     }
@@ -270,7 +280,14 @@ public class AccountingLedgerApp {
                 double priceParts = Double.parseDouble(lineParts[4]);
 
                 //Add them into the empty Array
-                Transactions tranaction = new Transactions(datePart,timePart,descriptionPart,vendorParts,priceParts);
+                Transactions transaction = new Transactions(datePart,timePart,descriptionPart,vendorParts,priceParts);
+                //Store them into transaction ArrayList
+                transactions.add(transaction);
+                //Sort them the now to show the newest entries first
+                //Comparator.comparing is a java tool
+                //In the comparing tool argument
+                //For each object in Transaction compare using getDate values
+                transactions.sort(Comparator.comparing(Transactions::getDate));
             }
             bufReader.close();
         } catch (Exception e) {
