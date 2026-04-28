@@ -1,5 +1,6 @@
 package com.pluralsight;
 import java.io.*;
+import java.sql.Array;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -232,28 +233,53 @@ public class AccountingLedgerApp {
             }
         }//End of MakePayment method
     public static void ledger(){
-        ArrayList<Transactions> transaction = getTransactions();
-        //Prompt the questions to navigate through menu
-        System.out.println("=== LarryLegend's Ledger Menu ===");
-        System.out.println();
-        System.out.println("Please choose an option to navigate through the menu.");
-        System.out.println();
-        System.out.println("Press A: Display All Entries");
-        System.out.println("Press D: View the Deposits");
-        System.out.println("Press P: View the Payments");
-        System.out.println("Press R: Custom Search");
-        //Store their input
-        String usersInput = theScanner.nextLine();
-        if(usersInput.equalsIgnoreCase("A")){
-            System.out.println("=== Diplaying all Entries ===");
+        ArrayList<Transactions> transactions = getTransactions();
+        boolean isRunning = false;
+        while(!isRunning) {
+            //Prompt the questions to navigate through menu
+            System.out.println("=== LarryLegend's Ledger Menu ===");
             System.out.println();
-            for(int i = 0; i < transactions.size(); i++){
-                Transactions t = transactions.get(i);
-                System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",t.getDate(),
-                t.getTime(),t.getDescription(),t.getVendor(),t.getAmount());
+            System.out.println("Please choose an option to navigate through the menu.");
+            System.out.println();
+            System.out.println("Press A: Display All Entries");
+            System.out.println("Press D: View the Deposits");
+            System.out.println("Press P: View the Payments");
+            System.out.println("Press R: Custom Search");
+            System.out.println("Press X: To Exit Ledger Menu");
+            //Store their input
+            String usersInput = theScanner.nextLine();
+            if (usersInput.equalsIgnoreCase("A")) {
+                System.out.println("=== Diplaying all Entries ===");
+                System.out.println();
+                for (int i = 0; i < transactions.size(); i++) {
+                    Transactions t = transactions.get(i);
+                    System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n", t.getDate(),
+                            t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                }
+            } else if (usersInput.equalsIgnoreCase("D")) {
+                System.out.println("=== Displaying all Deposits ===");
+                System.out.println();
+                for (int i = 0; i < transactions.size(); i++) {
+                    Transactions t = transactions.get(i);
+                    if (t.getAmount() > 0) {
+                        System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
+                                t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                    }
+                }
+            } else if (usersInput.equalsIgnoreCase("P")) {
+                System.out.println("=== Displaying all Payments ===");
+                System.out.println();
+                for (int i = 0; i < transactions.size(); i++) {
+                    Transactions t = transactions.get(i);
+                    if (t.getAmount() < 0) {
+                        System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
+                                t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                    }
+                }
             }
-        }
 
+
+        }
     }
     public static ArrayList<Transactions> getTransactions(){
         //create a file reader to read through the csv files of transaction
@@ -298,7 +324,31 @@ public class AccountingLedgerApp {
 
         return transactions;
     }
+    public static void search(){
+        //Create a sub menu for searching the reports
+        boolean isRunning = false;
+        //Prompt users choice and store their answer to use later
+        while(!isRunning) {
+            System.out.println("=== Custom Search ===");
+            System.out.println();
+            System.out.println("Press 1: Month to Date");
+            System.out.println("Press 2: Previous Month");
+            System.out.println("Press 3: Year to Date");
+            System.out.println("Press 4: Previous Year");
+            System.out.println("Press 5: Search by Vendor");
+            System.out.println("Press 0: Back");
+            System.out.println("Press H: For Home");
+            System.out.println();
+            int usersChoice = theScanner.nextInt();
+            //Eat the line
+            theScanner.nextLine();
+            String usersChoiceS = theScanner.nextLine();
 
+
+
+
+        }
+    }
 
 
 
