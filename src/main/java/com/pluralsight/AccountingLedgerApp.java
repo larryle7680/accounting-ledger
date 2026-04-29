@@ -4,6 +4,7 @@ import java.sql.Array;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 public class AccountingLedgerApp {
@@ -488,7 +489,7 @@ public class AccountingLedgerApp {
         while(!isRunning){
             System.out.println("=== Custom Search 2 ===");
             System.out.println();
-            System.out.println("1. Date Range Search (yyyy-mm-dd)");
+            System.out.println("1. Date Range Search (yyyy-MM)");
             System.out.println("2. Description");
             System.out.println("3. Amount Range");
             System.out.println();
@@ -496,26 +497,32 @@ public class AccountingLedgerApp {
             System.out.println();
             int usersInput = theScanner.nextInt();
 
-            boolean found = false;
+
 
             //Create a switch statement to sort t
             switch(usersInput){
                 case 1:
-                    while(!found){
-                        System.out.println("Please Enter the Start Date: (yyyy-mm-dd");
-                        String startDate = theScanner.nextLine();
-                        System.out.println("Please Enter the End Date: (yyyy-mm-dd");
-                        String endDate = theScanner.nextLine();
+                    while(!isRunning){
+                        //Eat the line
+                        theScanner.nextLine();
+                        System.out.println("Please Enter the Start Date: (yyyy-MM)");
+                        String startYearMonth = theScanner.nextLine();
+                        System.out.println("Please Enter the End Date: (yyyy-MM)");
+                        String endYearMonth = theScanner.nextLine();
 
                         //Parse the users input to an actual date
-                        LocalDate startParsedDate = LocalDate.parse(startDate);
-                        LocalDate endParsedDate = LocalDate.parse(endDate);
+                        //Built in Java tool to just get the Year and Month only
+                        YearMonth startParsedYearMonth = YearMonth.parse(startYearMonth);
+                        YearMonth endParsedYearMonth = YearMonth.parse(endYearMonth);
+
+                        //Convert t.getDate into YearMonth
 
                         //Loop through the ArrayList<Transaction>
                         for(int i = 0; i < transactions.size(); i++){
                             Transactions t = transactions.get(i);
-                            LocalDate getDate = t.getDate();
-                            if(getDate.isAfter(startParsedDate) && getDate.isBefore(endParsedDate)){
+                            YearMonth getDate = YearMonth.from(t.getDate());
+                            if(!getDate.isBefore(startParsedYearMonth) &&
+                                    !getDate.isAfter(endParsedYearMonth)) {
                                 System.out.println("Here are the transactions within the range:");
                                 System.out.println();
                                 System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
@@ -524,6 +531,7 @@ public class AccountingLedgerApp {
                             }
 
                         }
+                        break;
                     }
             }
 
