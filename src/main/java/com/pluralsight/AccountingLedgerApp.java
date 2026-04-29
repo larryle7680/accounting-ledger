@@ -290,7 +290,7 @@ public class AccountingLedgerApp {
 
 
         }
-    }
+    }//End of ledger method
     public static ArrayList<Transactions> getTransactions(){
         //create a file reader to read through the csv files of transaction
         FileReader fileReader = null;
@@ -333,7 +333,7 @@ public class AccountingLedgerApp {
 
 
         return transactions;
-    }
+    }//End of getTransaction method
     public static void search(){
 
         //Create a sub menu for searching the reports
@@ -441,7 +441,7 @@ public class AccountingLedgerApp {
 
 
         }
-    }
+    }//End of search method
     public static void surprise(){
         System.out.println("░░░░░░▄▄▄▄▀▀▀▀▀▀▀▀▄▄▄▄▄▄▄\n" +
                 "░░░░░█░░░░░░░░░░░░░░░░░░▀▀▄\n" +
@@ -478,7 +478,7 @@ public class AccountingLedgerApp {
                 "░░░░░░░▄▄▄▄▀▄▄▀█▀▄▄▀▄▄▄▄\n" +
                 "░░░░░▄▀▄░▄░▄░░░█░░░▄░▄░▄▀▄\n" +
                 "░░░░░█▄▄▄▄▄▄▄▄▄▀▄▄▄▄▄▄▄▄▄█");
-    }
+    }//End of surprise method
 
 
 
