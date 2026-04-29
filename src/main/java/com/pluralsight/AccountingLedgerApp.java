@@ -505,6 +505,8 @@ public class AccountingLedgerApp {
                     while(!isRunning){
                         //Eat the line
                         theScanner.nextLine();
+                        System.out.println("=== Search by Date Range ===");
+                        System.out.println();
                         System.out.println("Please Enter the Start Date: (yyyy-MM)");
                         String startYearMonth = theScanner.nextLine();
                         System.out.println("Please Enter the End Date: (yyyy-MM)");
@@ -530,6 +532,49 @@ public class AccountingLedgerApp {
 
                             }
 
+                        }
+                        break;
+                    }
+                case 2:
+                    while(!isRunning){
+                        //eat the line
+                        theScanner.nextLine();
+                        System.out.println("=== Search by Description ===");
+                        System.out.println();
+                        System.out.println("Please type in the description");
+                        String descriptionInput = theScanner.nextLine();
+
+                        //Loop through the ArrayList
+                        for(int i = 0; i < transactions.size(); i++){
+                            Transactions t = transactions.get(i);
+                            if(t.getDescription().toLowerCase().contains(descriptionInput.toLowerCase())){
+                                System.out.println("Here are the transactions within the range:");
+                                System.out.println();
+                                System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
+                                        t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                            }
+                        }
+                        break;
+                    }
+                case 3:
+                    while(!isRunning){
+                        //Prompt User to input price ranges
+                        System.out.println("=== Search by Price Range ===");
+                        System.out.println();
+                        System.out.println("What is the Minimum Price?");
+                        int minPriceSearch = theScanner.nextInt();
+                        System.out.println("What is the Maximum Price");
+                        int maxPriceSearch = theScanner.nextInt();
+
+                        //Use a loop to iterate through the object Array
+                        for(int i = 0; i < transactions.size(); i++){
+                            Transactions t = transactions.get(i);
+                            if(minPriceSearch <= t.getAmount() && maxPriceSearch >= t.getAmount()){
+                                System.out.println("These are the transaction within the price Range");
+                                System.out.println();
+                                System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
+                                        t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                            }
                         }
                         break;
                     }
