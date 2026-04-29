@@ -206,7 +206,7 @@ public class AccountingLedgerApp {
             if (yesOrNo.equalsIgnoreCase("y")) {
                 try {
                     File file = new File("src/main/resources/transaction.csv");
-                    boolean header = !file.exists() || file.length() == 0;
+                    boolean header = !file.exists() && file.length() == 0;
                     fileWriter = new FileWriter("src/main/resources/transaction.csv", true);
                     BufferedWriter bufWriter = new BufferedWriter(fileWriter);
 
@@ -251,8 +251,8 @@ public class AccountingLedgerApp {
             System.out.println("Press A: Display All Entries");
             System.out.println("Press D: View the Deposits");
             System.out.println("Press P: View the Payments");
-            System.out.println("Press R: Custom Search");
-            System.out.println("Press X: To Exit Ledger Menu");
+            System.out.println("Press R: Reports");
+            System.out.println("Press H: Home Screen");
             //Store their input
             String usersInput = theScanner.nextLine();
             if (usersInput.equalsIgnoreCase("A")) {
@@ -285,8 +285,9 @@ public class AccountingLedgerApp {
                 }
             } else if(usersInput.equalsIgnoreCase("R")){
                 search();
-            }else if(usersInput.equalsIgnoreCase("X")){
-                isRunning = false;
+            }else if(usersInput.equalsIgnoreCase("H")){
+                homeScreen();
+
             }
 
 
@@ -350,17 +351,11 @@ public class AccountingLedgerApp {
             System.out.println("Press 5: Search by Vendor");
             System.out.println("Press 6: For more Options");
             System.out.println("Press 0: Back");
-            System.out.println("Press H: For Home");
             System.out.println();
+
             int usersChoice = theScanner.nextInt();
 //            //Eat the line
-//            theScanner.nextLine();
-            String usersChoiceS = theScanner.nextLine();
-
-            //Create a conditional for "H" to go back home
-            if(usersChoiceS.equalsIgnoreCase("H")){
-                isRunning = false;
-            }
+            theScanner.nextLine();
 
             //Create a switch statement for the numbers
             switch(usersChoice) {
@@ -582,7 +577,7 @@ public class AccountingLedgerApp {
 
         }
 
-    }
+    }//End of NextMenu
 
 
 
