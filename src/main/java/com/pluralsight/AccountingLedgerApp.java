@@ -347,6 +347,7 @@ public class AccountingLedgerApp {
             System.out.println("Press 3: Year to Date");
             System.out.println("Press 4: Previous Year");
             System.out.println("Press 5: Search by Vendor");
+            System.out.println("Press 6: For more Options");
             System.out.println("Press 0: Back");
             System.out.println("Press H: For Home");
             System.out.println();
@@ -362,6 +363,9 @@ public class AccountingLedgerApp {
 
             //Create a switch statement for the numbers
             switch(usersChoice) {
+                case 0:
+                    ledger();
+                    break;
                 case 1:
                     System.out.println("Please type in a month");
                     String monthSearch = theScanner.nextLine();
@@ -435,7 +439,7 @@ public class AccountingLedgerApp {
                     }
                     break;
                 case 6:
-                    ledger();
+                    nextMenu();
                     break;
             }
 
@@ -479,6 +483,53 @@ public class AccountingLedgerApp {
                 "░░░░░▄▀▄░▄░▄░░░█░░░▄░▄░▄▀▄\n" +
                 "░░░░░█▄▄▄▄▄▄▄▄▄▀▄▄▄▄▄▄▄▄▄█");
     }//End of surprise method
+    public static void nextMenu(){
+        boolean isRunning = false;
+        while(!isRunning){
+            System.out.println("=== Custom Search 2 ===");
+            System.out.println();
+            System.out.println("1. Date Range Search (yyyy-mm-dd)");
+            System.out.println("2. Description");
+            System.out.println("3. Amount Range");
+            System.out.println();
+            System.out.println("Please choose an option: ");
+            System.out.println();
+            int usersInput = theScanner.nextInt();
+
+            boolean found = false;
+
+            //Create a switch statement to sort t
+            switch(usersInput){
+                case 1:
+                    while(!found){
+                        System.out.println("Please Enter the Start Date: (yyyy-mm-dd");
+                        String startDate = theScanner.nextLine();
+                        System.out.println("Please Enter the End Date: (yyyy-mm-dd");
+                        String endDate = theScanner.nextLine();
+
+                        //Parse the users input to an actual date
+                        LocalDate startParsedDate = LocalDate.parse(startDate);
+                        LocalDate endParsedDate = LocalDate.parse(endDate);
+
+                        //Loop through the ArrayList<Transaction>
+                        for(int i = 0; i < transactions.size(); i++){
+                            Transactions t = transactions.get(i);
+                            LocalDate getDate = t.getDate();
+                            if(getDate.isAfter(startParsedDate) && getDate.isBefore(endParsedDate)){
+                                System.out.println("Here are the transactions within the range:");
+                                System.out.println();
+                                System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
+                                        t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+
+                            }
+
+                        }
+                    }
+            }
+
+        }
+
+    }
 
 
 
