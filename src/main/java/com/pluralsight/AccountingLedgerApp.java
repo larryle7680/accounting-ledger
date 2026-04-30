@@ -11,50 +11,51 @@ public class AccountingLedgerApp {
     //Creating a static Scanner to be able to access it through any method I created
     static Scanner theScanner = new Scanner(System.in);
     //Create and empty static Array List to input stuff into your object
-    static ArrayList<Transactions>transactions = new ArrayList<>();
+    static ArrayList<Transactions> transactions = new ArrayList<>();
     static LocalDate date = LocalDate.now();
 
     public static void main(String[] args) {
         homeScreen();
     }//End of Main Method
-    public static void homeScreen(){
+
+    public static void homeScreen() {
         //Create a boolean to keep the menu false
         //But when the menu is running the variable would change to true
         boolean isRunning = false;
         //Create a while loop for when the menu is running
-        while(!isRunning){
+        while (!isRunning) {
             System.out.println();
             System.out.println("=== LarryLegend's Production ===");
             System.out.println();
             System.out.println("""
-                Welcome to LarryLegend's Production
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠤⠶⢶⠦⢄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⠿⠴⠾⣦⠀⠀⠀⢨⢷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡼⠁⠀⠀⠀⠈⠁⠀⠀⠈⠘⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⡂⠀⠀⠀⣀⣤⠖⠀⠀⠀⢹⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡞⠛⠓⠒⠚⠛⠒⠚⢻⣦⣠⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣜⣀⣀⣀⣀⣀⠀⢀⣠⠟⠉⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠁⢹⠛⣻⠿⢿⠛⠋⠀⣼⢻⣤⣀⣤⣤⡶⠶⢶⣤⡀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣈⣧⡹⣾⠭⠀⣠⣾⠃⢤⣿⠋⠀⠀⠀⠀⠀⠉⢹⡄⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠴⠒⠉⣽⣛⣧⢳⣌⣥⣼⣿⢃⣴⠞⣡⠆⠀⠀⠀⠀⠀⠀⠀⣷⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⡇⠀⠀⠀⠀⠙⢿⣿⣿⢿⡿⠟⢋⡥⠞⠁⠀⠀⠀⠀⠀⠀⢀⣠⣿⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡆⠀⠀⠀⠀⡇⣀⣙⣿⠿⠖⠋⠉⠴⠚⠉⠛⠛⠀⠀⠀⣾⡿⠋⡇⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣧⠀⢀⣀⡴⠿⢿⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣿⠟⠀⢠⡇⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⠤⠶⠛⠛⠉⠉⠀⠀⠀⠹⣿⣷⣦⣄⠀⣀⣤⣠⣶⣿⣿⡟⠁⠀⢠⢿⡇⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡼⢋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣨⣿⣿⣿⣷⣿⣿⣿⡿⠋⡠⠀⢠⠏⣼⠃⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠞⠉⢀⡼⢠⠔⠒⠒⢶⡶⠲⠶⢾⣿⣿⣿⣿⡿⠿⠿⡿⠟⠛⠿⣿⡷⠊⢠⡶⠁⡼⠃⠀⠀⠀
-                ⠀⠀⠀⠀⠀⣀⣀⣠⣤⣤⣤⣤⢴⡟⣠⣴⣶⣋⠀⣾⠀⠀⠀⢸⣇⠀⠀⣀⣠⣬⣽⣿⣄⠀⠀⠀⢀⣤⠞⠉⢀⡴⠋⠀⡼⠀⠀⠀⠀⠀
-                ⠀⢠⣴⣾⣿⣿⡿⠿⠿⢿⣯⣴⢟⣼⣿⣿⣿⣿⣷⣽⣷⣦⡄⠀⠙⢧⣰⣿⣿⠟⠋⠉⠻⣧⣤⣴⠟⠁⢀⠴⠋⠀⠀⢰⡇⠀⠀⠀⠀⠀
-                ⣀⠘⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠻⣿⣿⣷⣄⠀⠀⠘⢿⣅⣀⡀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀
-                ⠈⠙⠻⢿⣳⢿⣯⣭⣿⣿⣿⣟⡛⢛⣿⣛⣿⢽⣟⣛⣿⣯⣿⣿⣿⣶⣶⣾⣿⣿⣿⣧⡀⠀⠀⠉⠻⢯⣝⣒⠦⢤⣀⠘⢆⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠉⠛⠾⣝⣿⣿⣿⣽⣿⣌⣿⣷⣿⡿⠿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⢠⡄⣦⠀⣙⠯⣍⣽⣮⣍⠛⠓⠄⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠿⣿⣻⡿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣿⡇⣼⡇⣿⣆⠹⣷⣦⣽⣿⠟⠀⢀⣠⣤⣶⠿
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠶⢮⣍⡛⠛⠿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣿⣷⠽⠿⠗⢛⣋⣭⣴⣶⡿⠟⠛⠉⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⠶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠤⠴⠶⠛⠛⠋⠉⠁⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠶⢤⣀⣀⣀⣤⠶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⠿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                Please choose an option to navigate through the home screen.
-                """);
+                    Welcome to LarryLegend's Production
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠤⠶⢶⠦⢄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⠿⠴⠾⣦⠀⠀⠀⢨⢷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡼⠁⠀⠀⠀⠈⠁⠀⠀⠈⠘⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⡂⠀⠀⠀⣀⣤⠖⠀⠀⠀⢹⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡞⠛⠓⠒⠚⠛⠒⠚⢻⣦⣠⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣜⣀⣀⣀⣀⣀⠀⢀⣠⠟⠉⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠁⢹⠛⣻⠿⢿⠛⠋⠀⣼⢻⣤⣀⣤⣤⡶⠶⢶⣤⡀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣈⣧⡹⣾⠭⠀⣠⣾⠃⢤⣿⠋⠀⠀⠀⠀⠀⠉⢹⡄⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠴⠒⠉⣽⣛⣧⢳⣌⣥⣼⣿⢃⣴⠞⣡⠆⠀⠀⠀⠀⠀⠀⠀⣷⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⡇⠀⠀⠀⠀⠙⢿⣿⣿⢿⡿⠟⢋⡥⠞⠁⠀⠀⠀⠀⠀⠀⢀⣠⣿⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡆⠀⠀⠀⠀⡇⣀⣙⣿⠿⠖⠋⠉⠴⠚⠉⠛⠛⠀⠀⠀⣾⡿⠋⡇⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣧⠀⢀⣀⡴⠿⢿⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣿⠟⠀⢠⡇⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⠤⠶⠛⠛⠉⠉⠀⠀⠀⠹⣿⣷⣦⣄⠀⣀⣤⣠⣶⣿⣿⡟⠁⠀⢠⢿⡇⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡼⢋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣨⣿⣿⣿⣷⣿⣿⣿⡿⠋⡠⠀⢠⠏⣼⠃⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠞⠉⢀⡼⢠⠔⠒⠒⢶⡶⠲⠶⢾⣿⣿⣿⣿⡿⠿⠿⡿⠟⠛⠿⣿⡷⠊⢠⡶⠁⡼⠃⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⣀⣀⣠⣤⣤⣤⣤⢴⡟⣠⣴⣶⣋⠀⣾⠀⠀⠀⢸⣇⠀⠀⣀⣠⣬⣽⣿⣄⠀⠀⠀⢀⣤⠞⠉⢀⡴⠋⠀⡼⠀⠀⠀⠀⠀
+                    ⠀⢠⣴⣾⣿⣿⡿⠿⠿⢿⣯⣴⢟⣼⣿⣿⣿⣿⣷⣽⣷⣦⡄⠀⠙⢧⣰⣿⣿⠟⠋⠉⠻⣧⣤⣴⠟⠁⢀⠴⠋⠀⠀⢰⡇⠀⠀⠀⠀⠀
+                    ⣀⠘⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠻⣿⣿⣷⣄⠀⠀⠘⢿⣅⣀⡀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀
+                    ⠈⠙⠻⢿⣳⢿⣯⣭⣿⣿⣿⣟⡛⢛⣿⣛⣿⢽⣟⣛⣿⣯⣿⣿⣿⣶⣶⣾⣿⣿⣿⣧⡀⠀⠀⠉⠻⢯⣝⣒⠦⢤⣀⠘⢆⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠉⠛⠾⣝⣿⣿⣿⣽⣿⣌⣿⣷⣿⡿⠿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⢠⡄⣦⠀⣙⠯⣍⣽⣮⣍⠛⠓⠄⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠿⣿⣻⡿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣿⡇⣼⡇⣿⣆⠹⣷⣦⣽⣿⠟⠀⢀⣠⣤⣶⠿
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠶⢮⣍⡛⠛⠿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣿⣷⠽⠿⠗⢛⣋⣭⣴⣶⡿⠟⠛⠉⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⠶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠤⠴⠶⠛⠛⠋⠉⠁⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠶⢤⣀⣀⣀⣤⠶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⠿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                    Please choose an option to navigate through the home screen.
+                    """);
             System.out.println();
             System.out.println("Press D: Add Deposit");
             System.out.println("Press P: Make a Payment");
@@ -66,31 +67,30 @@ public class AccountingLedgerApp {
             String usersChoice = theScanner.nextLine();
 
             //Create if statement to sort through the option when chosen
-            if(usersChoice.equalsIgnoreCase("D")){
+            if (usersChoice.equalsIgnoreCase("D")) {
                 addDeposit();
                 break;
-            }else if (usersChoice.equalsIgnoreCase("P")){
+            } else if (usersChoice.equalsIgnoreCase("P")) {
                 makePayment();
                 break;
-            }else if (usersChoice.equalsIgnoreCase("L")) {
+            } else if (usersChoice.equalsIgnoreCase("L")) {
                 ledger();
                 break;
-            }else if(usersChoice.equalsIgnoreCase("S")){
+            } else if (usersChoice.equalsIgnoreCase("S")) {
                 surprise();
                 break;
-            }else if(usersChoice.equalsIgnoreCase("X")){
+            } else if (usersChoice.equalsIgnoreCase("X")) {
                 return;
             }
 
 
-
-
         }
     }//End of homeScreen method
-    public static void addDeposit(){
+
+    public static void addDeposit() {
         //Make this menu into a while loop
         boolean isRunning = false;
-        while(!isRunning) {
+        while (!isRunning) {
             //Prompt users questions and store their input
             System.out.println();
             System.out.println("=== Adding Deposit ===");
@@ -134,18 +134,18 @@ public class AccountingLedgerApp {
                     fileWriter = new FileWriter("src/main/resources/transaction.csv", true);
                     BufferedWriter bufWriter = new BufferedWriter(fileWriter);
 
-                    if(header){
+                    if (header) {
                         bufWriter.write("=== LarryLegend's Ledger ===");
                         bufWriter.write("Date|Time|Description|Vendor|Price");
                     }
 
-                    bufWriter.write(dateInput + "|" + timeInput + "|" + descriptionInput + "|" + vendorInput + "|" + priceInput +"\n");
+                    bufWriter.write(dateInput + "|" + timeInput + "|" + descriptionInput + "|" + vendorInput + "|" + priceInput + "\n");
 
                     bufWriter.close();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            }else {
+            } else {
                 System.out.println();
                 System.out.println("Please try again.");
                 System.out.println();
@@ -153,18 +153,19 @@ public class AccountingLedgerApp {
             }
             System.out.println("Would you like to add another? Y or N");
             String addAnother = theScanner.nextLine();
-            if(addAnother.equalsIgnoreCase("Y")){
+            if (addAnother.equalsIgnoreCase("Y")) {
                 addDeposit();
-            }else{
+            } else {
                 homeScreen();
             }
 
-        break;
+            break;
         }
     }//End of addDeposit method
-    public static void makePayment(){
+
+    public static void makePayment() {
         boolean isRunning = false;
-        while(!isRunning) {
+        while (!isRunning) {
             System.out.println("=== Make A Payment ===");
             System.out.println();
             System.out.println("Who's the payment to?");
@@ -210,18 +211,18 @@ public class AccountingLedgerApp {
                     fileWriter = new FileWriter("src/main/resources/transaction.csv", true);
                     BufferedWriter bufWriter = new BufferedWriter(fileWriter);
 
-                    if(header){
+                    if (header) {
                         bufWriter.write("=== LarryLegend's Ledger ===");
                         bufWriter.write("Date|Time|Description|Vendor|Price");
                     }
 
-                    bufWriter.write(dayText + "|" + timeText + "|" + forPayment + "|" + payee + "|" + "-" + productPrice +"\n");
+                    bufWriter.write(dayText + "|" + timeText + "|" + forPayment + "|" + payee + "|" + "-" + productPrice + "\n");
 
                     bufWriter.close();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            }else {
+            } else {
                 System.out.println();
                 System.out.println("Please try again.");
                 System.out.println();
@@ -229,20 +230,21 @@ public class AccountingLedgerApp {
             }
             System.out.println("Would you like to add another? Y or N");
             String addAnother = theScanner.nextLine();
-            if(addAnother.equalsIgnoreCase("Y")){
+            if (addAnother.equalsIgnoreCase("Y")) {
                 makePayment();
-            }else{
+            } else {
                 homeScreen();
             }
 
             break;
 
-            }
-        }//End of MakePayment method
-    public static void ledger(){
+        }
+    }//End of MakePayment method
+
+    public static void ledger() {
         ArrayList<Transactions> transactions = getTransactions();
         boolean isRunning = false;
-        while(!isRunning) {
+        while (!isRunning) {
             //Prompt the questions to navigate through menu
             System.out.println("=== LarryLegend's Ledger Menu ===");
             System.out.println();
@@ -262,7 +264,16 @@ public class AccountingLedgerApp {
                     Transactions t = transactions.get(i);
                     System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n", t.getDate(),
                             t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+
                 }
+                System.out.println();
+                System.out.println("Press L: Ledger Menu");
+                String ledgerMenu = theScanner.nextLine();
+                System.out.println();
+                if(ledgerMenu.equalsIgnoreCase("L")){
+                    ledger();
+                }
+
             } else if (usersInput.equalsIgnoreCase("D")) {
                 System.out.println("=== Displaying all Deposits ===");
                 System.out.println();
@@ -272,6 +283,13 @@ public class AccountingLedgerApp {
                         System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
                                 t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
                     }
+                }
+                System.out.println();
+                System.out.println("Press L: Ledger Menu");
+                String ledgerMenu = theScanner.nextLine();
+                System.out.println();
+                if(ledgerMenu.equalsIgnoreCase("L")){
+                    ledger();
                 }
             } else if (usersInput.equalsIgnoreCase("P")) {
                 System.out.println("=== Displaying all Payments ===");
@@ -283,65 +301,31 @@ public class AccountingLedgerApp {
                                 t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
                     }
                 }
-            } else if(usersInput.equalsIgnoreCase("R")){
+                System.out.println();
+                System.out.println("Press L: Ledger Menu");
+                String ledgerMenu = theScanner.nextLine();
+                System.out.println();
+                if(ledgerMenu.equalsIgnoreCase("L")){
+                    ledger();
+                }
+            } else if (usersInput.equalsIgnoreCase("R")) {
                 search();
-            }else if(usersInput.equalsIgnoreCase("H")){
+            } else if (usersInput.equalsIgnoreCase("H")) {
                 homeScreen();
-
             }
 
 
+
         }
+
     }//End of ledger method
-    public static ArrayList<Transactions> getTransactions(){
-        //create a file reader to read through the csv files of transaction
-        FileReader fileReader = null;
-        try {
-            fileReader = new FileReader("src/main/resources/transaction.csv");
-            BufferedReader bufReader = new BufferedReader(fileReader);
 
-            //Skip the first 2 lines for headers
-            bufReader.readLine();
-            bufReader.readLine();
-
-            //add a variable for line so it can read
-            String line;
-           //Use a while loop to read through the files
-            while((line = bufReader.readLine()) != null){
-                //Split the data into its designated variables
-                String[] lineParts = line.split("\\|");
-                //Parse the Date and Time into an actual date/time
-                LocalDate datePart = LocalDate.parse(lineParts[0]);
-                LocalTime timePart = LocalTime.parse(lineParts[1]);
-                String descriptionPart = lineParts[2];
-                String vendorParts = lineParts[3];
-                double priceParts = Double.parseDouble(lineParts[4]);
-
-                //Add them into the empty Array
-                Transactions transaction = new Transactions(datePart,timePart,descriptionPart,vendorParts,priceParts);
-                //Store them into transaction ArrayList
-                transactions.add(transaction);
-                //Sort them the now to show the newest entries first
-                //Comparator.comparing is a java tool
-                //In the comparing tool argument
-                //For each object in Transaction compare using getDate values
-                transactions.sort(Comparator.comparing(Transactions::getDate));
-            }
-            bufReader.close();
-        } catch (Exception e) {
-            System.out.println("Can't find the file.");
-            throw new RuntimeException(e);
-        }
-
-
-        return transactions;
-    }//End of getTransaction method
-    public static void search(){
+    public static void search () {
 
         //Create a sub menu for searching the reports
         boolean isRunning = false;
         //Prompt users choice and store their answer to use later
-        while(!isRunning) {
+        while (!isRunning) {
             System.out.println("=== Custom Search ===");
             System.out.println();
             System.out.println("Press 1: Month to Date");
@@ -358,7 +342,7 @@ public class AccountingLedgerApp {
             theScanner.nextLine();
 
             //Create a switch statement for the numbers
-            switch(usersChoice) {
+            switch (usersChoice) {
                 case 0:
                     ledger();
                     break;
@@ -367,7 +351,7 @@ public class AccountingLedgerApp {
                     String monthSearch = theScanner.nextLine();
                     //Iterate through the list
                     for (int i = 0; i < transactions.size(); i++) {
-                         Transactions t = transactions.get(i);
+                        Transactions t = transactions.get(i);
                         //Converted the date to a string to compare
                         //Get month from the getDate
                         //value of is a java tool that assigns the month to its respective number
@@ -390,7 +374,7 @@ public class AccountingLedgerApp {
                                     t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
                         }
                     }
-                break;
+                    break;
                 case 3:
                     System.out.println("Please type in a year");
                     String yearSearch = theScanner.nextLine();
@@ -426,9 +410,9 @@ public class AccountingLedgerApp {
                     System.out.println("Please Enter The Vendor's Name");
                     String vendorsName = theScanner.nextLine();
                     System.out.println();
-                    for(int i = 0; i < transactions.size(); i++){
+                    for (int i = 0; i < transactions.size(); i++) {
                         Transactions t = transactions.get(i);
-                        if(vendorsName.equalsIgnoreCase(t.getVendor())){
+                        if (vendorsName.equalsIgnoreCase(t.getVendor())) {
                             System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
                                     t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
                         }
@@ -442,7 +426,149 @@ public class AccountingLedgerApp {
 
         }
     }//End of search method
-    public static void surprise(){
+
+    public static ArrayList<Transactions> getTransactions() {
+        //create a file reader to read through the csv files of transaction
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader("src/main/resources/transaction.csv");
+            BufferedReader bufReader = new BufferedReader(fileReader);
+
+            //Skip the first 2 lines for headers
+            bufReader.readLine();
+            bufReader.readLine();
+
+            //add a variable for line so it can read
+            String line;
+            //Use a while loop to read through the files
+            while ((line = bufReader.readLine()) != null) {
+                //Split the data into its designated variables
+                String[] lineParts = line.split("\\|");
+                //Parse the Date and Time into an actual date/time
+                LocalDate datePart = LocalDate.parse(lineParts[0]);
+                LocalTime timePart = LocalTime.parse(lineParts[1]);
+                String descriptionPart = lineParts[2];
+                String vendorParts = lineParts[3];
+                double priceParts = Double.parseDouble(lineParts[4]);
+
+                //Add them into the object transaction
+                Transactions transaction = new Transactions(datePart, timePart, descriptionPart, vendorParts, priceParts);
+                //Store them into transaction ArrayList
+                transactions.add(transaction);
+                //Sort them the now to show the newest entries first
+                //Comparator.comparing is a java tool
+                //In the comparing tool argument
+                //For each object in Transaction compare using getDate values
+                transactions.sort(Comparator.comparing(Transactions::getDate));
+            }
+            bufReader.close();
+            return transactions;
+        } catch (Exception e) {
+            System.out.println("Can't find the file.");
+            throw new RuntimeException(e);
+        }
+    }//End of AccountingLedgerApp Class
+
+    public static void nextMenu() {
+        boolean isRunning = false;
+        while (!isRunning) {
+            System.out.println("=== Custom Search 2 ===");
+            System.out.println();
+            System.out.println("1. Date Range Search (yyyy-MM)");
+            System.out.println("2. Description");
+            System.out.println("3. Amount Range");
+            System.out.println();
+            System.out.println("Please choose an option: ");
+            System.out.println();
+            int usersInput = theScanner.nextInt();
+
+
+            //Create a switch statement to sort t
+            switch (usersInput) {
+                case 1:
+                    while (!isRunning) {
+                        //Eat the line
+                        theScanner.nextLine();
+                        System.out.println("=== Search by Date Range ===");
+                        System.out.println();
+                        System.out.println("Please Enter the Start Date: (yyyy-MM)");
+                        String startYearMonth = theScanner.nextLine();
+                        System.out.println("Please Enter the End Date: (yyyy-MM)");
+                        String endYearMonth = theScanner.nextLine();
+
+                        //Parse the users input to an actual date
+                        //Built in Java tool to just get the Year and Month only
+                        YearMonth startParsedYearMonth = YearMonth.parse(startYearMonth);
+                        YearMonth endParsedYearMonth = YearMonth.parse(endYearMonth);
+
+                        //Convert t.getDate into YearMonth
+
+                        //Loop through the ArrayList<Transaction>
+                        for (int i = 0; i < transactions.size(); i++) {
+                            Transactions t = transactions.get(i);
+                            YearMonth getDate = YearMonth.from(t.getDate());
+                            if (!getDate.isBefore(startParsedYearMonth) &&
+                                    !getDate.isAfter(endParsedYearMonth)) {
+                                System.out.println("Here are the transactions within the range:");
+                                System.out.println();
+                                System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
+                                        t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+
+                            }
+
+                        }
+                        break;
+                    }
+                case 2:
+                    while (!isRunning) {
+                        //eat the line
+                        theScanner.nextLine();
+                        System.out.println("=== Search by Description ===");
+                        System.out.println();
+                        System.out.println("Please type in the description");
+                        String descriptionInput = theScanner.nextLine();
+
+                        //Loop through the ArrayList
+                        for (int i = 0; i < transactions.size(); i++) {
+                            Transactions t = transactions.get(i);
+                            if (t.getDescription().toLowerCase().contains(descriptionInput.toLowerCase())) {
+                                System.out.println("Here are the transaction with your description:");
+                                System.out.println();
+                                System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
+                                        t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                            }
+                        }
+                        break;
+                    }
+                case 3:
+                    while (!isRunning) {
+                        //Prompt User to input price ranges
+                        System.out.println("=== Search by Price Range ===");
+                        System.out.println();
+                        System.out.println("What is the Minimum Price?");
+                        int minPriceSearch = theScanner.nextInt();
+                        System.out.println("What is the Maximum Price");
+                        int maxPriceSearch = theScanner.nextInt();
+
+                        //Use a loop to iterate through the object Array
+                        for (int i = 0; i < transactions.size(); i++) {
+                            Transactions t = transactions.get(i);
+                            if (minPriceSearch <= t.getAmount() && maxPriceSearch >= t.getAmount()) {
+                                System.out.println("These are the transaction within the price Range");
+                                System.out.println();
+                                System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
+                                        t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                            }
+                        }
+                        break;
+                    }
+            }
+
+        }
+
+    }//End of NextMenu
+
+    public static void surprise() {
         System.out.println("░░░░░░▄▄▄▄▀▀▀▀▀▀▀▀▄▄▄▄▄▄▄\n" +
                 "░░░░░█░░░░░░░░░░░░░░░░░░▀▀▄\n" +
                 "░░░░█░░░░░░░░░░░░░░░░░░░░░░█\n" +
@@ -479,113 +605,5 @@ public class AccountingLedgerApp {
                 "░░░░░▄▀▄░▄░▄░░░█░░░▄░▄░▄▀▄\n" +
                 "░░░░░█▄▄▄▄▄▄▄▄▄▀▄▄▄▄▄▄▄▄▄█");
     }//End of surprise method
-    public static void nextMenu(){
-        boolean isRunning = false;
-        while(!isRunning){
-            System.out.println("=== Custom Search 2 ===");
-            System.out.println();
-            System.out.println("1. Date Range Search (yyyy-MM)");
-            System.out.println("2. Description");
-            System.out.println("3. Amount Range");
-            System.out.println();
-            System.out.println("Please choose an option: ");
-            System.out.println();
-            int usersInput = theScanner.nextInt();
 
-
-
-            //Create a switch statement to sort t
-            switch(usersInput){
-                case 1:
-                    while(!isRunning){
-                        //Eat the line
-                        theScanner.nextLine();
-                        System.out.println("=== Search by Date Range ===");
-                        System.out.println();
-                        System.out.println("Please Enter the Start Date: (yyyy-MM)");
-                        String startYearMonth = theScanner.nextLine();
-                        System.out.println("Please Enter the End Date: (yyyy-MM)");
-                        String endYearMonth = theScanner.nextLine();
-
-                        //Parse the users input to an actual date
-                        //Built in Java tool to just get the Year and Month only
-                        YearMonth startParsedYearMonth = YearMonth.parse(startYearMonth);
-                        YearMonth endParsedYearMonth = YearMonth.parse(endYearMonth);
-
-                        //Convert t.getDate into YearMonth
-
-                        //Loop through the ArrayList<Transaction>
-                        for(int i = 0; i < transactions.size(); i++){
-                            Transactions t = transactions.get(i);
-                            YearMonth getDate = YearMonth.from(t.getDate());
-                            if(!getDate.isBefore(startParsedYearMonth) &&
-                                    !getDate.isAfter(endParsedYearMonth)) {
-                                System.out.println("Here are the transactions within the range:");
-                                System.out.println();
-                                System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
-                                        t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
-
-                            }
-
-                        }
-                        break;
-                    }
-                case 2:
-                    while(!isRunning){
-                        //eat the line
-                        theScanner.nextLine();
-                        System.out.println("=== Search by Description ===");
-                        System.out.println();
-                        System.out.println("Please type in the description");
-                        String descriptionInput = theScanner.nextLine();
-
-                        //Loop through the ArrayList
-                        for(int i = 0; i < transactions.size(); i++){
-                            Transactions t = transactions.get(i);
-                            if(t.getDescription().toLowerCase().contains(descriptionInput.toLowerCase())){
-                                System.out.println("Here are the transactions within the range:");
-                                System.out.println();
-                                System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
-                                        t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
-                            }
-                        }
-                        break;
-                    }
-                case 3:
-                    while(!isRunning){
-                        //Prompt User to input price ranges
-                        System.out.println("=== Search by Price Range ===");
-                        System.out.println();
-                        System.out.println("What is the Minimum Price?");
-                        int minPriceSearch = theScanner.nextInt();
-                        System.out.println("What is the Maximum Price");
-                        int maxPriceSearch = theScanner.nextInt();
-
-                        //Use a loop to iterate through the object Array
-                        for(int i = 0; i < transactions.size(); i++){
-                            Transactions t = transactions.get(i);
-                            if(minPriceSearch <= t.getAmount() && maxPriceSearch >= t.getAmount()){
-                                System.out.println("These are the transaction within the price Range");
-                                System.out.println();
-                                System.out.printf("Date: %s| Time: %s| Description: %s| Vendor: %s| Amount: $%.2f\n",
-                                        t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
-                            }
-                        }
-                        break;
-                    }
-            }
-
-        }
-
-    }//End of NextMenu
-
-
-
-
-
-
-
-
-
-
-}//End of AccountingLedgerApp Class
+}
